@@ -27,7 +27,7 @@ type DhcpOption struct {
 	Value string
 }
 
-func (o *DhcpOption) ConvertOptionValueToByte(value string) ([]byte, error) {
+func (o DhcpOption) ConvertOptionValueToByte(value string) ([]byte, error) {
 	code := dhcp.OptionCode(o.Code)
 	switch code {
 	// Single IP-like address
@@ -155,7 +155,7 @@ func (o *DhcpOption) ConvertOptionValueToByte(value string) ([]byte, error) {
 	return nil, errors.New("Invalid Option: " + code.String() + " " + value)
 }
 
-func (o *DhcpOption) RenderToDHCP(srcOpts map[int]string) (code byte, val []byte, err error) {
+func (o DhcpOption) RenderToDHCP(srcOpts map[int]string) (code byte, val []byte, err error) {
 	tmpl, err := template.New("dhcp_option").Parse(o.Value)
 	if err != nil {
 		return o.Code, nil, err
