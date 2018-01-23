@@ -64,10 +64,10 @@ func (h *DhcpHandler) buildReply(p dhcp.Packet, mt dhcp.MessageType, serverID, y
 	for _, opt := range options.SelectOrderOrAll(order) {
 		c, v := opt.Code, opt.Value
 		switch c {
-		case dhcp.OptionBootFileName:
-			fileName = v
-		case dhcp.OptionTFTPServerName:
-			sName = v
+		//case dhcp.OptionBootFileName:
+		//	fileName = v
+		//case dhcp.OptionTFTPServerName:
+		//	sName = v
 		default:
 			toAdd = append(toAdd, opt)
 		}
