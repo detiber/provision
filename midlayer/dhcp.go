@@ -162,11 +162,11 @@ func (h *DhcpHandler) buildOptions(p dhcp.Packet,
 	// says we should answer like we are a proxy request, add the proxy options.
 	if h.proxyOnly || (s != nil && s.Proxy) {
 		if pxeClient, ok := srcOpts[int(dhcp.OptionVendorClassIdentifier)]; ok && strings.HasPrefix(pxeClient, "PXEClient:") {
+			// The PXE server must identify itself as "PXEClient"
+			opts[dhcp.OptionVendorClassIdentifier] = []byte("PXEClient")
 			// A single menu entry named PXE, and a 0 second timeout to automatically boot to it.
 			// This is what dnsmasq does when there is only one option it will return.
 			opts[dhcp.OptionVendorSpecificInformation] = []byte{0x06, 0x01, 0x08, 0x0a, 0x04, 0x00, 0x50, 0x58, 0x45, 0xff}
-			// The PXE server must identify itself as "PXEClient"
-			opts[dhcp.OptionVendorClassIdentifier] = []byte("PXEClient")
 			// Send back the GUID if we got a guid
 			if options[97] != nil {
 				opts[97] = options[97]
