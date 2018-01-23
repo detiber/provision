@@ -62,15 +62,15 @@ func (h *DhcpHandler) buildReply(p dhcp.Packet, mt dhcp.MessageType, serverID, y
 	// THis also appears to be required to make UEFI boot mode work properly on
 	// the Dell T320.
 	for _, opt := range options.SelectOrderOrAll(order) {
-		//c, v := opt.Code, opt.Value
-		//switch c {
-		//case dhcp.OptionBootFileName:
-		//	fileName = v
-		//case dhcp.OptionTFTPServerName:
-		//	sName = v
-		//default:
-		toAdd = append(toAdd, opt)
-		//}
+		c, v := opt.Code, opt.Value
+		switch c {
+		case dhcp.OptionBootFileName:
+			fileName = v
+		case dhcp.OptionTFTPServerName:
+			sName = v
+		default:
+			toAdd = append(toAdd, opt)
+		}
 	}
 	if leaseDuration > 0 {
 		toAdd = append(toAdd,
