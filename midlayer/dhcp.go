@@ -384,7 +384,7 @@ func (h *DhcpHandler) ServeDHCP(p dhcp.Packet,
 	options dhcp.Options,
 	cm *ipv4.ControlMessage) (res dhcp.Packet) {
 	rt := h.Request("leases", "reservations", "subnets")
-	rt.Infof("Received DHCP packet: type %s %s ciaddr %s yiaddr %s giaddr %s server %s chaddr %s on %s\n\t%v",
+	rt.Infof("Received DHCP packet: type %s %s ciaddr %s yiaddr %s giaddr %s server %s chaddr %s on %s port %v\n\toptions: %v",
 		msgType.String(),
 		xid(p),
 		p.CIAddr(),
@@ -393,6 +393,7 @@ func (h *DhcpHandler) ServeDHCP(p dhcp.Packet,
 		p.SIAddr(),
 		p.CHAddr().String(),
 		cm.Dst.String(),
+		h.port,
 	        options)
 	rt.Debugf("Packet recieved on interface %s, subnet candidates are %v", h.intf(cm).Name, h.listenIPs(cm))
 	// need code to figure out which interface or relay it came from
